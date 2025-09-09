@@ -1,0 +1,717 @@
+[
+  {
+    "start_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "水洗不彻底",
+        "standard": "最后一级电导率>10µS/cm"
+      }
+    },
+    "end_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "Fe³⁺超标"
+      }
+    }
+  },
+  {
+    "start_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "Fe³⁺超标"
+      }
+    },
+    "end_node": {
+      "label": "缺陷类型",
+      "properties": {
+        "name": "镀层发黑"
+      }
+    }
+  },
+  {
+    "start_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "电流密度过低",
+        "standard": "电流密度需要保持在15-30A/dm²"
+      }
+    },
+    "end_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "沉积速率不足"
+      }
+    }
+  },
+  {
+    "start_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "沉积速率不足"
+      }
+    },
+    "end_node": {
+      "label": "缺陷类型",
+      "properties": {
+        "name": "孔铜厚度过低",
+        "typical_manifestations": "低于标准 5µm 以上"
+      }
+    }
+  },
+  {
+    "start_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "喷淋压力不均",
+        "standard": "喷淋压力需要保持在0.15-0.25MPa"
+      }
+    },
+    "end_node": {
+      "label": "缺陷类型",
+      "properties": {
+        "name": "出现高厚径比孔",
+        "typical_manifestations": "厚径比 > 10:1"
+      }
+    }
+  },
+  {
+    "start_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "尘埃颗粒(>5µm)过多"
+      }
+    },
+    "end_node": {
+      "label": "缺陷类型",
+      "properties": {
+        "name": "异物缺陷",
+        "typical_manifestations": "产品中存在外来颗粒物"
+      }
+    }
+  },
+  {
+    "start_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "整平剂不足",
+        "description": "如JGB"
+      }
+    },
+    "end_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "板面不平",
+        "description": "板面微观不平度 (Rz) 超 3µm"
+      }
+    }
+  },
+  {
+    "start_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "板面不平",
+        "description": "板面微观不平度 (Rz) 超 3µm"
+      }
+    },
+    "end_node": {
+      "label": "缺陷类型",
+      "properties": {
+        "name": "结合力不良",
+        "typical_manifestations": "胶带测试后镀层剥离"
+      }
+    }
+  },
+  {
+    "start_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "油污残留",
+        "description": "如指纹、助焊剂"
+      }
+    },
+    "end_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "镀层“孤岛状”沉积"
+      }
+    }
+  },
+  {
+    "start_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "镀层“孤岛状”沉积"
+      }
+    },
+    "end_node": {
+      "label": "缺陷类型",
+      "properties": {
+        "name": "结合力不良",
+        "typical_manifestations": "胶带测试后镀层剥离"
+      }
+    }
+  },
+  {
+    "start_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "微蚀深度过浅",
+        "standard": "微蚀深度需要保持在1.0-1.5µm"
+      }
+    },
+    "end_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "氧化层未除净"
+      }
+    }
+  },
+  {
+    "start_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "氧化层未除净"
+      }
+    },
+    "end_node": {
+      "label": "缺陷类型",
+      "properties": {
+        "name": "结合力不良",
+        "typical_manifestations": "胶带测试后镀层剥离"
+      }
+    }
+  },
+  {
+    "start_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "光亮剂过量",
+        "description": "如 SP"
+      }
+    },
+    "end_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "镀层脆性增加",
+        "description": "弯曲测试易断裂"
+      }
+    }
+  },
+  {
+    "start_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "镀层脆性增加",
+        "description": "弯曲测试易断裂"
+      }
+    },
+    "end_node": {
+      "label": "缺陷类型",
+      "properties": {
+        "name": "表面烧焦",
+        "typical_manifestations": "局部镀层发黑、粗糙"
+      }
+    }
+  },
+  {
+    "start_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "局部导电不良",
+        "description": "导电不良部分无法正常导电，使得能正常导电的部分电流密度超标"
+      }
+    },
+    "end_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "电流密度过高",
+        "standard": "电流密度需要保持在15-30A/dm²"
+      }
+    }
+  },
+  {
+    "start_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "电流密度过高",
+        "standard": "电流密度需要保持在15-30A/dm²"
+      }
+    },
+    "end_node": {
+      "label": "缺陷类型",
+      "properties": {
+        "name": "表面烧焦",
+        "typical_manifestations": "局部镀层发黑、粗糙"
+      }
+    }
+  },
+  {
+    "start_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "过滤精度不足",
+        "standard": "过滤精度需控制≤5µm"
+      }
+    },
+    "end_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "镀液中颗粒杂质嵌入镀层",
+        "description": "如铜粉、尘埃"
+      }
+    }
+  },
+  {
+    "start_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "镀液中颗粒杂质嵌入镀层",
+        "description": "如铜粉、尘埃"
+      }
+    },
+    "end_node": {
+      "label": "缺陷类型",
+      "properties": {
+        "name": "镀层针孔",
+        "typical_manifestations": "直径<0.1mm 的小孔，密集分布"
+      }
+    }
+  },
+  {
+    "start_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "添加剂分解产物积累",
+        "description": "有机杂质>0.5g/L"
+      }
+    },
+    "end_node": {
+      "label": "缺陷类型",
+      "properties": {
+        "name": "镀层针孔",
+        "typical_manifestations": "直径<0.1mm 的小孔，密集分布"
+      }
+    }
+  },
+  {
+    "start_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "温度过高 (>28℃)",
+        "standard": "温度需严格控制在 24-26℃ (温差≤±1℃)"
+      }
+    },
+    "end_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "加速添加剂分解",
+        "description": "光亮剂半衰期缩短 50%"
+      }
+    }
+  },
+  {
+    "start_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "加速添加剂分解",
+        "description": "光亮剂半衰期缩短 50%"
+      }
+    },
+    "end_node": {
+      "label": "缺陷类型",
+      "properties": {
+        "name": "镀层针孔",
+        "typical_manifestations": "直径<0.1mm 的小孔，密集分布"
+      }
+    }
+  },
+  {
+    "start_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "链条速度波动超 ±0.1m/min",
+        "standard": "链条速度需要保持在 1.0-2.5m/min"
+      }
+    },
+    "end_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "镀铜时间差异",
+        "description": "电路板的不同部分或者不同批次的电路板在电镀槽中停留的有效电镀时间不一致"
+      }
+    }
+  },
+  {
+    "start_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "镀铜时间差异",
+        "description": "电路板的不同部分或者不同批次的电路板在电镀槽中停留的有效电镀时间不一致"
+      }
+    },
+    "end_node": {
+      "label": "缺陷类型",
+      "properties": {
+        "name": "面铜厚度偏差过大",
+        "typical_manifestations": "面铜厚度偏差大于等于3µm"
+      }
+    }
+  },
+  {
+    "start_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "导电铜轮接触不良",
+        "description": "如氧化、磨损"
+      }
+    },
+    "end_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "局部电流中断"
+      }
+    }
+  },
+  {
+    "start_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "局部电流中断"
+      }
+    },
+    "end_node": {
+      "label": "缺陷类型",
+      "properties": {
+        "name": "漏镀",
+        "typical_manifestations": "局部区域没有镀上镀层"
+      }
+    }
+  },
+  {
+    "start_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "活化镀层不均"
+      }
+    },
+    "end_node": {
+      "label": "缺陷类型",
+      "properties": {
+        "name": "孔壁空洞",
+        "typical_manifestations": "孔壁的局部区域完全没有镀上镀层"
+      }
+    }
+  },
+
+
+  {
+    "start_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "温湿度波动过大",
+        "standard": "温度 24±2℃，湿度 50±5%"
+      }
+    },
+    "end_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "镀液蒸发量不稳定"
+      }
+    }
+  },
+
+
+  {
+    "start_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "温度过低 (<22℃)",
+        "standard": "温度需严格控制在 24-26℃ (温差≤±1℃)"
+      }
+    },
+    "end_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "镀液分散能力不足",
+        "description": "TP值较低"
+      }
+    }
+  },
+  {
+    "start_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "镀液分散能力不足",
+        "description": "TP值较低"
+      }
+    },
+    "end_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "孔铜与面铜厚度差大"
+      }
+    }
+  },
+  {
+    "start_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "孔铜与面铜厚度差大"
+      }
+    },
+    "end_node": {
+      "label": "缺陷类型",
+      "properties": {
+        "name": "孔铜厚度不均",
+        "typical_manifestations": "同板不同孔厚度差>5µm"
+      }
+    }
+  },
+
+
+
+  {
+    "start_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "循环量不足",
+        "standard": "循环量需要保持每小时 8-10 次槽体积"
+      }
+    },
+    "end_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "硫酸铜浓度低于标准超过5%",
+        "standard": "硫酸铜浓度需要保持在200-220g/L"
+      }
+    }
+  },
+  {
+    "start_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "镀液蒸发量不稳定"
+      }
+    },
+    "end_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "硫酸铜浓度低于标准超过5%",
+        "standard": "硫酸铜浓度需要保持在200-220g/L"
+      }
+    }
+  },
+  {
+    "start_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "硫酸铜浓度低于标准超过5%",
+        "standard": "硫酸铜浓度需要保持在200-220g/L"
+      }
+    },
+    "end_node": {
+      "label": "缺陷类型",
+      "properties": {
+        "name": "孔铜厚度不均",
+        "typical_manifestations": "同板不同孔厚度差>5µm"
+      }
+    }
+  },
+
+
+
+  {
+    "start_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "极间距离不均",
+        "standard": "稳网间距需要保持在设计值±0.5mm"
+      }
+    },
+    "end_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "电流分布不均"
+      }
+    }
+  },
+  {
+    "start_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "电流分布不均"
+      }
+    },
+    "end_node": {
+      "label": "缺陷类型",
+      "properties": {
+        "name": "孔铜厚度不均",
+        "typical_manifestations": "同板不同孔厚度差>5µm"
+      }
+    }
+  },
+
+
+  {
+    "start_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "镀液蒸发量不稳定"
+      }
+    },
+    "end_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "氯离子浓度过高 (>100ppm)",
+        "standard": "氯离子浓度需要保持在50-80ppm"
+      }
+    }
+  },
+  {
+    "start_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "氯离子浓度过高 (>100ppm)",
+        "standard": "氯离子浓度需要保持在50-80ppm"
+      }
+    },
+    "end_node": {
+      "label": "缺陷类型",
+      "properties": {
+        "name": "镀层光亮度下降",
+        "typical_manifestations": "镀层甚至产生条纹"
+      }
+    }
+  },
+
+
+  {
+    "start_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "镀液蒸发量不稳定"
+      }
+    },
+    "end_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "氯离子浓度过低 (<30ppm)",
+        "standard": "氯离子浓度需要保持在50-80ppm"
+      }
+    }
+  },
+  {
+    "start_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "氯离子浓度过低 (<30ppm)",
+        "standard": "氯离子浓度需要保持在50-80ppm"
+      }
+    },
+    "end_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "镀层表面粗糙",
+        "description": "如果出现 “树枝状” 结晶是因为氯离子浓度过低"
+      }
+    }
+  },
+  {
+    "start_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "微蚀深度过深",
+        "standard": "微蚀深度需要保持在1.0-1.5μm"
+      }
+    },
+    "end_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "镀层表面粗糙",
+        "description": "如果出现 “树枝状” 结晶是因为氯离子浓度过低"
+      }
+    }
+  },
+  {
+    "start_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "镀层表面粗糙",
+        "description": "如果出现 “树枝状” 结晶是因为氯离子浓度过低"
+      }
+    },
+    "end_node": {
+      "label": "缺陷类型",
+      "properties": {
+        "name": "镀层藏污",
+        "typical_manifestations": "表面粗糙度Ra>0.4µm"
+      }
+    }
+  },
+
+
+
+  {
+    "start_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "镀液蒸发量不稳定"
+      }
+    },
+    "end_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "硫酸浓度与标准偏差过大",
+        "standard": "硫酸浓度需要保持在180-200g/L"
+      }
+    }
+  },
+  {
+    "start_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "硫酸浓度与标准偏差过大",
+        "standard": "硫酸浓度需要保持在180-200g/L"
+      }
+    },
+    "end_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "镀液导电性与标准偏差过大",
+        "standard": "导带率需要保持在 60-70mS/cm"
+      }
+    }
+  },
+  {
+    "start_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "镀液导电性与标准偏差过大",
+        "standard": "导带率保持在 60-70mS/cm"
+      }
+    },
+    "end_node": {
+      "label": "缺陷类型",
+      "properties": {
+        "name": "面铜边缘增厚",
+        "typical_manifestations": "板边铜厚比中心高 15% 以上"
+      }
+    }
+  },
+  {
+    "start_node": {
+      "label": "影响因素",
+      "properties": {
+        "name": "板件垂直度偏差过大",
+        "standard": "板件垂直度需要保持在±0.5°"
+      }
+    },
+    "end_node": {
+      "label": "缺陷类型",
+      "properties": {
+        "name": "面铜边缘增厚",
+        "typical_manifestations": "板边铜厚比中心高 15% 以上"
+      }
+    }
+  }
+]
