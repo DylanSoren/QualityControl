@@ -128,9 +128,11 @@ public class GraphController {
                 relationshipDto.getEndNodeName()
         );
         if (success) {
-            return ResponseEntity.ok("关系创建成功或已存在。");
+            return ResponseEntity.ok("'" + relationshipDto.getStartNodeName() + " -> "
+                    + relationshipDto.getEndNodeName() + "' 关系创建成功。");
         } else {
-            return ResponseEntity.badRequest().body("关系创建失败，请检查节点是否存在。");
+            return ResponseEntity.badRequest().body("'" + relationshipDto.getStartNodeName() + " -> "
+                    + relationshipDto.getEndNodeName() + "' 关系创建失败，请检查节点是否存在。");
         }
     }
 
@@ -160,9 +162,11 @@ public class GraphController {
                 relationshipDto.getEndNodeName()
         );
         if (success) {
-            return ResponseEntity.ok("关系已成功断开。");
+            return ResponseEntity.ok("'" + relationshipDto.getStartNodeName() + " -> "
+                    + relationshipDto.getEndNodeName() + "' 关系已成功断开。");
         } else {
-            return ResponseEntity.badRequest().body("关系断开失败，请检查节点或关系是否存在。");
+            return ResponseEntity.badRequest().body("'" + relationshipDto.getStartNodeName() + " -> "
+                    + relationshipDto.getEndNodeName() + "' 关系断开失败，请检查节点或关系是否存在。");
         }
     }
 }
