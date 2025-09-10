@@ -18,7 +18,6 @@ public interface InfluencingFactorRepository extends Neo4jRepository<Influencing
     List<InfluencingFactor> findAllCausesForDefect(@Param("defectName") String defectName);
 
     /**
-     * 新增方法：
      * 查找所有导致指定缺陷的因果路径。
      * @return 一个列表，其中每个元素都是一条路径上的 InfluencingFactor 节点列表。
      */
