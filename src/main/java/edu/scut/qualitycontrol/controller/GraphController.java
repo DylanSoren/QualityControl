@@ -1,5 +1,8 @@
 package edu.scut.qualitycontrol.controller;
 
+import edu.scut.qualitycontrol.model.dto.DefectDto;
+import edu.scut.qualitycontrol.model.dto.FactorDto;
+import edu.scut.qualitycontrol.model.dto.RelationshipDto;
 import edu.scut.qualitycontrol.model.entity.DefectType;
 import edu.scut.qualitycontrol.model.entity.InfluencingFactor;
 import edu.scut.qualitycontrol.service.GraphManagerService;
@@ -161,42 +164,5 @@ public class GraphController {
         } else {
             return ResponseEntity.badRequest().body("关系断开失败，请检查节点或关系是否存在。");
         }
-    }
-
-    // --- DTO 类 (Data Transfer Objects) ---
-    // 为了方便接收 JSON 请求体，我们通常会创建一些简单的类来映射数据。
-    // 你可以将这些内部静态类移动到单独的文件中，以保持代码整洁。
-
-    static class FactorDto {
-        private String name;
-        private String standard;
-        private String description;
-        // Getters and Setters
-        public String getName() { return name; }
-        public void setName(String name) { this.name = name; }
-        public String getStandard() { return standard; }
-        public void setStandard(String standard) { this.standard = standard; }
-        public String getDescription() { return description; }
-        public void setDescription(String description) { this.description = description; }
-    }
-
-    static class DefectDto {
-        private String name;
-        private String typicalManifestations;
-        // Getters and Setters
-        public String getName() { return name; }
-        public void setName(String name) { this.name = name; }
-        public String getTypicalManifestations() { return typicalManifestations; }
-        public void setTypicalManifestations(String typicalManifestations) { this.typicalManifestations = typicalManifestations; }
-    }
-
-    static class RelationshipDto {
-        private String startNodeName;
-        private String endNodeName;
-        // Getters and Setters
-        public String getStartNodeName() { return startNodeName; }
-        public void setStartNodeName(String startNodeName) { this.startNodeName = startNodeName; }
-        public String getEndNodeName() { return endNodeName; }
-        public void setEndNodeName(String endNodeName) { this.endNodeName = endNodeName; }
     }
 }

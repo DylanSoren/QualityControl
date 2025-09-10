@@ -62,7 +62,7 @@ public class GraphManagerService {
     public boolean createRelationship(String startNodeName, String endNodeName) {
         Optional<InfluencingFactor> startNodeOpt = influencingFactorRepository.findByName(startNodeName);
         if (startNodeOpt.isEmpty()) {
-            log.info("错误：起始节点 '影响因素' '" + startNodeName + "' 不存在。");
+            log.error("错误：起始节点 '影响因素' '" + startNodeName + "' 不存在。");
             return false;
         }
         InfluencingFactor startNode = startNodeOpt.get();
@@ -95,7 +95,7 @@ public class GraphManagerService {
             return true;
         }
 
-        log.info("错误：结束节点 '" + endNodeName + "' 不存在。");
+        log.error("错误：结束节点 '{}' 不存在。", endNodeName);
         return false;
     }
 
@@ -165,10 +165,10 @@ public class GraphManagerService {
             } else {
                 influencingFactorRepository.delete((InfluencingFactor) node);
             }
-            log.info("已删除节点 '" + name + "'。注意：SDN6+ 会自动处理关联关系。");
+            log.info("已删除节点 '" + name + "'。");
             return true;
         } else {
-            log.info("未找到节点 '" + name + "'。");
+            log.error("未找到节点 '" + name + "'。");
             return false;
         }
     }
@@ -176,7 +176,7 @@ public class GraphManagerService {
     public boolean deleteRelationship(String startName, String endName) {
         Optional<InfluencingFactor> startNodeOpt = influencingFactorRepository.findByName(startName);
         if (startNodeOpt.isEmpty()) {
-             log.info("错误：无法找到起始节点。");
+             log.error("错误：无法找到起始节点。");
              return false;
         }
         InfluencingFactor startNode = startNodeOpt.get();
@@ -192,7 +192,7 @@ public class GraphManagerService {
             return true;
         }
 
-        log.info("关系不存在或节点类型不匹配: (" + startName + ") -[导致]-> (" + endName + ")");
+        log.error("关系不存在或节点类型不匹配: (" + startName + ") -[导致]-> (" + endName + ")");
         return false;
     }
 }
