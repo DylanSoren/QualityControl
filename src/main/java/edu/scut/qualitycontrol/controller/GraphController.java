@@ -2,6 +2,7 @@ package edu.scut.qualitycontrol.controller;
 
 import edu.scut.qualitycontrol.model.dto.DefectDto;
 import edu.scut.qualitycontrol.model.dto.FactorDto;
+import edu.scut.qualitycontrol.model.dto.GraphDataDto;
 import edu.scut.qualitycontrol.model.dto.RelationshipDto;
 import edu.scut.qualitycontrol.model.entity.DefectType;
 import edu.scut.qualitycontrol.model.entity.InfluencingFactor;
@@ -46,10 +47,14 @@ public class GraphController {
      * @param label 可选参数，可以是 "影响因素" 或 "缺陷类型"
      * @return 节点列表
      */
+    /**
+     * 获取整个知识图谱的数据（所有节点和所有关系）。
+     * @return 包含节点和关系列表的 GraphDataDto 对象
+     */
     @GetMapping("/nodes")
-    public ResponseEntity<List<?>> getAllNodes(@RequestParam(required = false) String label) {
-        List<?> nodes = graphManagerService.findAllNodes(label);
-        return ResponseEntity.ok(nodes);
+    public ResponseEntity<GraphDataDto> getFullGraph() {
+        GraphDataDto graphData = graphManagerService.getFullGraphData();
+        return ResponseEntity.ok(graphData);
     }
 
     // --- 关系查询 (Read) ---

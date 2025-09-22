@@ -1,6 +1,8 @@
 package edu.scut.qualitycontrol.service;
 
 import edu.scut.qualitycontrol.model.dto.CausalPathNode;
+import edu.scut.qualitycontrol.model.dto.GraphDataDto;
+import edu.scut.qualitycontrol.model.dto.LinkDto;
 import edu.scut.qualitycontrol.model.entity.DefectType;
 import edu.scut.qualitycontrol.model.entity.InfluencingFactor;
 import edu.scut.qualitycontrol.repository.DefectTypeRepository;
@@ -194,5 +196,38 @@ public class GraphManagerService {
 
         log.error("关系不存在或节点类型不匹配: (" + startName + ") -[导致]-> (" + endName + ")");
         return false;
+    }
+
+    /**
+     * 获取完整的图谱数据，包含所有节点和所有关系
+     * @return GraphDataDto
+     */
+    @Transactional(readOnly = true) // 使用只读事务，提高查询性能
+    public GraphDataDto getFullGraphData() {
+        // 1. 获取所有节点
+        List<Object> allNodes = new ArrayList<>();
+        List<InfluencingFactor> factors = influencingFactorRepository.findAll();
+        allNodes.addAll(factors);
+        allNodes.addAll(defectRepository.findAll());
+
+        // 2. 遍历所有影响因素节点，构建关系列表
+        List<LinkDto> allLinks = new ArrayList<>();
+        for (InfluencingFactor factor : factors) {
+            // 添加指向其他影响因素的关系
+            if (factor.getLeadsToFactor() != null) {
+                for (InfluencingFactor targetFactor : factor.getLeadsToFactor()) {
+                    allLinks.add(new LinkDto(factor.getName(), targetFactor.getName()));
+                }
+            }
+            // 添加指向缺陷类型的关系
+            if (factor.getLeadsToDefect() != null) {
+                for (DefectType targetDefect : factor.getLeadsToDefect()) {
+                    allLinks.add(new LinkDto(factor.getName(), targetDefect.getName()));
+                }
+            }
+        }
+
+        // 3. 封装并返回
+        return new GraphDataDto(allNodes, allLinks);
     }
 }
