@@ -43,6 +43,17 @@ public class GraphController {
     }
 
     /**
+     * 根据名称模糊搜索节点。
+     * @param name 搜索关键词
+     * @return 匹配的节点列表（包含影响因素和缺陷类型）
+     */
+    @GetMapping("/nodes/search")
+    public ResponseEntity<List<Object>> findNodesByNameFuzzy(@RequestParam String name) {
+        List<Object> nodes = graphManagerService.findNodesByNameFuzzy(name);
+        return ResponseEntity.ok(nodes);
+    }
+
+    /**
      * 获取所有节点，可以按标签（类型）过滤。
      * @param label 可选参数，可以是 "影响因素" 或 "缺陷类型"
      * @return 节点列表

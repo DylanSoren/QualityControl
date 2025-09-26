@@ -12,6 +12,14 @@ import java.util.Optional;
 public interface InfluencingFactorRepository extends Neo4jRepository<InfluencingFactor, Long> {
     Optional<InfluencingFactor> findByName(String name);
 
+    /**
+     * 根据名称模糊查找影响因素节点
+     * @param name 查询关键词
+     * @return 匹配的影响因素列表
+     */
+    @Query("MATCH (f:影响因素) WHERE f.name CONTAINS $name RETURN f")
+    List<InfluencingFactor> findByNameContaining(@Param("name") String name);
+
     // 自定义查询，用于查找直接导致某个缺陷的所有影响因素 (反向查询)
     // 等同于 database_manager.py 中的 find_all_causes_for_defect
     @Query("MATCH (f:影响因素)-[:导致]->(d:缺陷类型 {name: $defectName}) RETURN f")

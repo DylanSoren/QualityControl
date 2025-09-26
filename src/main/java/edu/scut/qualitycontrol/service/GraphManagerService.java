@@ -122,6 +122,24 @@ public class GraphManagerService {
         }
         return defectRepository.findByName(name);
     }
+
+    /**
+     * 根据节点名称进行模糊搜索。
+     * @param name 搜索关键词
+     * @return 包含所有匹配的“影响因素”和“缺陷类型”节点的列表
+     */
+    public List<Object> findNodesByNameFuzzy(String name) {
+        // 调用的是我们刚刚在 Repository 中新定义的方法
+        List<InfluencingFactor> factors = influencingFactorRepository.findByNameContaining(name);
+        List<DefectType> defects = defectRepository.findByNameContaining(name);
+
+        // 将两个列表的结果合并到一个 List<Object> 中
+        List<Object> results = new ArrayList<>();
+        results.addAll(factors);
+        results.addAll(defects);
+
+        return results;
+    }
     
     public List<DefectType> findAllDefectsCausedBy(String factorName) {
         return influencingFactorRepository.findByName(factorName)
