@@ -7,11 +7,13 @@ import edu.scut.qualitycontrol.model.dto.RelationshipDto;
 import edu.scut.qualitycontrol.model.entity.DefectType;
 import edu.scut.qualitycontrol.model.entity.InfluencingFactor;
 import edu.scut.qualitycontrol.service.GraphManagerService;
+import edu.scut.qualitycontrol.service.GraphNarratorService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * 用于管理知识图谱节点的 RESTful API 控制器。
@@ -23,10 +25,75 @@ public class GraphController {
 
     private final GraphManagerService graphManagerService;
 
+    // 注入 AI 服务
+    private final GraphNarratorService narratorService;
+
     // 通过构造函数注入 GraphManagerService
-    public GraphController(GraphManagerService graphManagerService) {
+    public GraphController(GraphManagerService graphManagerService, GraphNarratorService narratorService) {
         this.graphManagerService = graphManagerService;
+        this.narratorService = narratorService;
     }
+
+    // agent智能品控
+
+    /**
+     * 接收缺陷名称，查询因果路径，并调用大模型生成通俗解释
+     */
+    @GetMapping("/narrate")
+    public ResponseEntity<String> narrate(@RequestParam String defectType) {
+        // 检查缺陷是否存在
+        Optional<?> nodeOpt = graphManagerService.findNodeByName(defectType);
+
+        // 如果找不到节点，或者找到的不是缺陷类型(而是影响因素)，直接返回提示
+        if (nodeOpt.isEmpty() || !(nodeOpt.get() instanceof DefectType)) {
+            return ResponseEntity.ok("系统提示：在知识库中未找到名为“" + defectType + "”的缺陷类型，无法进行因果分析。请检查输入名称是否正确。");
+        }
+
+        // 调用 GraphManagerService 查询所有因果路径
+        List<List<InfluencingFactor>> paths = graphManagerService.findAllCausalPathsForDefect(defectType);
+
+        if (paths.isEmpty()) {
+            return ResponseEntity.ok("系统提示：虽然找到了缺陷“" + defectType + "”，但在库中暂时没有记录导致该缺陷的具体因果链路。");
+        }
+
+        // 数据格式化：将 List<List<InfluencingFactor>> 转换为 AI 能读懂的自然语言文本
+        String formattedContext = formatPathsForAI(paths);
+
+        // 调用 AI 生成文本
+        String description = narratorService.analyzeDefectCauses(defectType, formattedContext);
+
+        return ResponseEntity.ok(description);
+    }
+
+    /**
+     * 辅助方法：将路径对象列表转换为字符串描述
+     */
+    private String formatPathsForAI(List<List<InfluencingFactor>> paths) {
+        StringBuilder sb = new StringBuilder();
+        int index = 1;
+        for (List<InfluencingFactor> path : paths) {
+            sb.append("路径 ").append(index++).append("：");
+
+            // 将路径中的节点用 "->" 连接，并附带标准信息
+            String pathStr = path.stream()
+                    .map(factor -> {
+                        String info = factor.getName();
+                        // 如果有标准或描述，拼接到名字后面，帮助AI理解
+                        if (factor.getStandard() != null && !factor.getStandard().isEmpty()) {
+                            info += "(标准:" + factor.getStandard() + ")";
+                        }
+                        if (factor.getDescription() != null && !factor.getDescription().isEmpty()) {
+                            info += "(备注:" + factor.getDescription() + ")";
+                        }
+                        return info;
+                    })
+                    .collect(Collectors.joining(" -> "));
+
+            sb.append(pathStr).append("\n");
+        }
+        return sb.toString();
+    }
+
 
     // --- 节点查询 (Read) ---
 
@@ -53,11 +120,6 @@ public class GraphController {
         return ResponseEntity.ok(nodes);
     }
 
-    /**
-     * 获取所有节点，可以按标签（类型）过滤。
-     * @param label 可选参数，可以是 "影响因素" 或 "缺陷类型"
-     * @return 节点列表
-     */
     /**
      * 获取整个知识图谱的数据（所有节点和所有关系）。
      * @return 包含节点和关系列表的 GraphDataDto 对象
