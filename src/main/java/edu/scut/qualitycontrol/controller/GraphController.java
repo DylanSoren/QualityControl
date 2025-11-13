@@ -16,8 +16,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
- * 用于管理知识图谱节点的 RESTful API 控制器。
- * 暴露了对影响因素和缺陷类型节点的增删改查操作。
+ * 用于管理知识图谱节点的 RESTful API 控制器
+ * 暴露了对影响因素和缺陷类型节点的增删改查操作
  */
 @RestController
 @RequestMapping("/api/graph") // 为所有接口定义一个统一的基础路径
