@@ -1,5 +1,6 @@
 package edu.scut.qualitycontrol.controller;
 
+import dev.langchain4j.service.TokenStream;
 import edu.scut.qualitycontrol.model.dto.DefectDto;
 import edu.scut.qualitycontrol.model.dto.FactorDto;
 import edu.scut.qualitycontrol.model.dto.GraphDataDto;
@@ -8,11 +9,15 @@ import edu.scut.qualitycontrol.model.entity.DefectType;
 import edu.scut.qualitycontrol.model.entity.InfluencingFactor;
 import edu.scut.qualitycontrol.service.GraphManagerService;
 import edu.scut.qualitycontrol.service.GraphNarratorService;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 /**
@@ -20,13 +25,15 @@ import java.util.stream.Collectors;
  * 暴露了对影响因素和缺陷类型节点的增删改查操作
  */
 @RestController
-@RequestMapping("/api/graph") // 为所有接口定义一个统一的基础路径
+@RequestMapping("/api/graph")
 public class GraphController {
 
     private final GraphManagerService graphManagerService;
 
     // 注入 AI 服务
     private final GraphNarratorService narratorService;
+
+    private final ExecutorService executor = Executors.newCachedThreadPool();
 
     // 通过构造函数注入 GraphManagerService
     public GraphController(GraphManagerService graphManagerService, GraphNarratorService narratorService) {
@@ -63,6 +70,62 @@ public class GraphController {
         String description = narratorService.analyzeDefectCauses(defectType, formattedContext);
 
         return ResponseEntity.ok(description);
+    }
+
+    /**
+     * SSE 流式接口
+     * 前端使用 EventSource 调用: /api/graph/narrate/stream?defectType=xxx
+     */
+    @GetMapping(value = "/narrate/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public SseEmitter streamNarrate(@RequestParam String defectType) {
+        // 1. 建立长连接，超时设为 2 分钟
+        SseEmitter emitter = new SseEmitter(120000L);
+
+        executor.execute(() -> {
+            try {
+                // 查库
+                Optional<?> nodeOpt = graphManagerService.findNodeByName(defectType);
+                if (nodeOpt.isEmpty() || !(nodeOpt.get() instanceof DefectType)) {
+                    emitter.send("系统提示：未找到缺陷类型“" + defectType + "”。");
+                    emitter.complete();
+                    return;
+                }
+
+                List<List<InfluencingFactor>> paths = graphManagerService.findAllCausalPathsForDefect(defectType);
+                if (paths.isEmpty()) {
+                    emitter.send("系统提示：未发现因果路径数据。");
+                    emitter.complete();
+                    return;
+                }
+
+                String formattedContext = formatPathsForAI(paths);
+
+                // 调用 AI 并流式输出
+                TokenStream tokenStream = narratorService.streamAnalyzeDefectCauses(defectType, formattedContext);
+
+                // 发生错误
+                tokenStream
+                        .onNext(token -> {
+                            try {
+                                // 收到一个字(token)，发给前端
+                                emitter.send(token);
+                            } catch (Exception e) {
+                                emitter.completeWithError(e);
+                            }
+                        })
+                        .onComplete(token -> {
+                            // 生成完毕
+                            emitter.complete();
+                        })
+                        .onError(emitter::completeWithError)
+                        .start();
+
+            } catch (Exception e) {
+                emitter.completeWithError(e);
+            }
+        });
+
+        return emitter;
     }
 
     /**
