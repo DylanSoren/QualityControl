@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
@@ -78,54 +79,108 @@ public class GraphController {
      */
     @GetMapping(value = "/narrate/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public SseEmitter streamNarrate(@RequestParam String defectType) {
-        // 1. 建立长连接，超时设为 2 分钟
         SseEmitter emitter = new SseEmitter(120000L);
 
         executor.execute(() -> {
             try {
-                // 查库
+                // --- 步骤 A: 查库 ---
                 Optional<?> nodeOpt = graphManagerService.findNodeByName(defectType);
+
+                // 如果找不到节点，或者找到的不是缺陷类型
                 if (nodeOpt.isEmpty() || !(nodeOpt.get() instanceof DefectType)) {
-                    emitter.send("系统提示：未找到缺陷类型“" + defectType + "”。");
-                    emitter.complete();
-                    return;
+                    String message = "系统提示：未找到缺陷类型“" + defectType + "”。";
+                    sendSseMessage(emitter, message); // 发送普通消息
+                    completeSseStream(emitter);       // 发送 END 信号并关闭
+                    return; // 结束执行
                 }
 
+                // 如果找不到路径
                 List<List<InfluencingFactor>> paths = graphManagerService.findAllCausalPathsForDefect(defectType);
                 if (paths.isEmpty()) {
-                    emitter.send("系统提示：未发现因果路径数据。");
-                    emitter.complete();
-                    return;
+                    String message = "系统提示：找到了缺陷“" + defectType + "”，但在库中未发现导致该缺陷的因果路径。";
+                    sendSseMessage(emitter, message); // 发送普通消息
+                    completeSseStream(emitter);       // 发送 END 信号并关闭
+                    return; // 结束执行
                 }
 
                 String formattedContext = formatPathsForAI(paths);
-
-                // 调用 AI 并流式输出
                 TokenStream tokenStream = narratorService.streamAnalyzeDefectCauses(defectType, formattedContext);
 
-                // 发生错误
                 tokenStream
                         .onNext(token -> {
                             try {
-                                // 收到一个字(token)，发给前端
-                                emitter.send(token);
+                                String processedToken = token.replace("\n", "\\n");
+                                // 发送 "message" 数据事件
+                                sendSseMessage(emitter, processedToken);
                             } catch (Exception e) {
                                 emitter.completeWithError(e);
                             }
                         })
                         .onComplete(token -> {
-                            // 生成完毕
-                            emitter.complete();
+                            // 发送 "END" 成功结束事件
+                            completeSseStream(emitter);
                         })
-                        .onError(emitter::completeWithError)
+                        .onError(error -> {
+                            try {
+                                // 发送 "ERROR" 错误事件
+                                sendSseError(emitter, error.getMessage());
+                            } catch (Exception e) {
+                                // 忽略
+                            }
+                        })
                         .start();
 
             } catch (Exception e) {
-                emitter.completeWithError(e);
+                // 捕获顶层异常
+                sendSseError(emitter, "服务器内部错误: " + e.getMessage());
             }
         });
 
         return emitter;
+    }
+
+    /**
+     * 发送普通数据消息 (name: "message")
+     */
+    private void sendSseMessage(SseEmitter emitter, String data) {
+        try {
+            SseEmitter.SseEventBuilder event = SseEmitter.event()
+                    .name("message")
+                    .data(data);
+            emitter.send(event);
+        } catch (IOException e) {
+            emitter.completeWithError(e);
+        }
+    }
+
+    /**
+     * 发送成功结束信号 (name: "END")
+     */
+    private void completeSseStream(SseEmitter emitter) {
+        try {
+            SseEmitter.SseEventBuilder event = SseEmitter.event()
+                    .name("END")
+                    .data("[STREAM_COMPLETED]");
+            emitter.send(event);
+            emitter.complete();
+        } catch (IOException e) {
+            emitter.completeWithError(e);
+        }
+    }
+
+    /**
+     * 发送错误信号 (name: "ERROR")
+     */
+    private void sendSseError(SseEmitter emitter, String errorMessage) {
+        try {
+            SseEmitter.SseEventBuilder event = SseEmitter.event()
+                    .name("ERROR")
+                    .data(errorMessage);
+            emitter.send(event);
+            emitter.complete();
+        } catch (IOException e) {
+            emitter.completeWithError(e);
+        }
     }
 
     /**
